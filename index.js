@@ -1,20 +1,5 @@
-const optimist = require('optimist');
-require('dotenv').config();
 const { getBrowserPage, closeBrowsers } = require('./utils/browser');
-
-const argv = optimist
-  .usage('Usage: $0 -e [email] -p [pass]')
-  .demand('e')
-  .alias('e', 'email')
-  .describe('e', 'Email for login')
-  .demand('p')
-  .alias('p', 'pass')
-  .describe('p', 'Password for login')
-  .boolean('debug')
-  .default({
-    email: process.env.LI_USER,
-    pass: process.env.LI_PASSWORD
-  }).argv;
+const argv = require('./utils/argv');
 
 const { email, pass, debug } = argv;
 

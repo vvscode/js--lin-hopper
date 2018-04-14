@@ -10,7 +10,7 @@ async function getBrowser(debug) {
   };
   debug && (browserOptions.slowMo = 5);
   let browser = puppeteer.launch(browserOptions);
-  brosers.push(browser);
+  browsers.push(browser);
   return browser;
 }
 
@@ -23,8 +23,8 @@ async function getBrowserPage(debug) {
   return page;
 }
 
-async function closeBrowsers() { 
-  browsers.forEach(browser => await browser.close());
+async function closeBrowsers() {
+  browsers.forEach(async browser => await browser.close());
 }
 
 module.exports = {
