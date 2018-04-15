@@ -1,6 +1,6 @@
-const puppeteer = require('puppeteer');
 const optimist = require('optimist');
 require('dotenv').config();
+const { getBrowserPage, closeBrowsers } = require('./utils/browser');
 
 const argv = optimist
   .usage('Usage: $0 -e [email] -p [pass]')
@@ -27,22 +27,11 @@ pass: "${pass}"
 
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 
-let browser;
-
-let browserOptions = {
-  headless: !debug,
-  timeout: 60 * 1000,
-  executablePath: '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
-};
-debug && (browserOptions.slowMo = 5);
+let page;
 
 (async () => {
-  browser = await puppeteer.launch(browserOptions);
-  const page = await browser.newPage();
-  await page.setUserAgent(
-    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36'
-  );
   try {
+    page = await getBrowserPage(debug);
     await page.goto('https://www.linkedin.com/');
     var loginInput = await page.$('#login-email');
     await loginInput.type(`${email}`);
@@ -51,7 +40,7 @@ debug && (browserOptions.slowMo = 5);
     await page.click('#login-submit');
     await sleep(5000);
     await page.screenshot({ path: 'tmp/after-login.png', fullPage: true });
-    await browser.close();
+    await closeBrowsers();
   } catch (e) {
     console.error('error:', e);
   }
