@@ -1,0 +1,23 @@
+{
+  "name": "js--lin-hopper",
+  "version": "0.0.0",
+  "description": "Linkedin viewer bot",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/vvscode/js--lin-hopper.git"
+  },
+  "keywords": [
+    "linkedin",
+    "bot"
+  ],
+  "author": "@vvscode",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vvscode/js--lin-hopper/issues"
+  },
+  "homepage": "https://github.com/vvscode/js--lin-hopper#readme"
+}
