@@ -9,7 +9,7 @@ async function getBrowser(debug) {
       '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
   };
   debug && (browserOptions.slowMo = 5);
-  let browser = puppeteer.launch(browserOptions);
+  let browser = await puppeteer.launch(browserOptions);
   browsers.push(browser);
   return browser;
 }
