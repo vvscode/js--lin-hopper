@@ -1,5 +1,6 @@
 const { getBrowserPage, closeBrowsers } = require('./utils/browser');
 const argv = require('./utils/argv');
+const linkedin = require('./utils/linkedin');
 
 const { email, pass, debug } = argv;
 
@@ -10,20 +11,13 @@ email: "${email}"
 pass: "${pass}"
 `);
 
-const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
-
 let page;
 
 (async () => {
   try {
     page = await getBrowserPage(debug);
-    await page.goto('https://www.linkedin.com/');
-    var loginInput = await page.$('#login-email');
-    await loginInput.type(`${email}`);
-    var passInput = await page.$('#login-password');
-    await passInput.type(`${pass}`);
-    await page.click('#login-submit');
-    await sleep(5000);
+    await linkedin.login(page, email, pass);
+
     await page.screenshot({ path: 'tmp/after-login.png', fullPage: true });
     await closeBrowsers();
   } catch (e) {
