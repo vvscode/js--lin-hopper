@@ -4,16 +4,18 @@
   "description": "Linkedin viewer bot",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "precommit": "lint-staged"
+  },
+  "lint-staged": {
+    "**/*.js": ["eslint --fix", "git add"],
+    "**/*.{json,less,css}": ["prettier --write", "git add"]
   },
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com/vvscode/js--lin-hopper.git"
   },
-  "keywords": [
-    "linkedin",
-    "bot"
-  ],
+  "keywords": ["linkedin", "bot"],
   "author": "@vvscode",
   "license": "ISC",
   "bugs": {
@@ -22,7 +24,18 @@
   "homepage": "https://github.com/vvscode/js--lin-hopper#readme",
   "dependencies": {
     "dotenv": "^5.0.1",
+    "eslint": "^4.19.1",
+    "eslint-config-prettier": "^2.9.0",
+    "eslint-plugin-prettier": "^2.6.0",
+    "husky": "^0.14.3",
+    "lint-staged": "^7.0.5",
     "optimist": "^0.6.1",
+    "prettier": "^1.12.1",
+    "prettier-eslint": "^8.8.1",
     "puppeteer": "^1.3.0"
+  },
+  "devDependencies": {
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.11.0"
   }
 }

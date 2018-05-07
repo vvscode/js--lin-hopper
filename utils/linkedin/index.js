@@ -1,5 +1,9 @@
-const login = require('./login');
+const login = require("./login");
+const navigation = require("./navigation");
+const profile = require("./profile");
 
 module.exports = {
-  login
+  login,
+  navigation,
+  profile
 };
