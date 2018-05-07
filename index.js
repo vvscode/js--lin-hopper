@@ -31,7 +31,7 @@ let page;
     );
     await navigationManager.scrollToPageBottom();
     const profiles = await profileManager.getPageProfiles();
-    fs.writeFileSync("./accounts.txt", profiles.join("\n"));
+    fs.writeFileSync("./tmp/accounts.txt", profiles.join("\n"));
     await closeBrowsers();
   } catch (e) {
     console.error("error:", e);
