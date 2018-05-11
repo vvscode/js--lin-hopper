@@ -1,7 +1,7 @@
-const fs = require("fs");
 const { getBrowserPage, closeBrowsers } = require("./utils/browser");
-const argv = require("./utils/argv");
 const linkedin = require("./utils/linkedin");
+const Db = require("./utils/db");
+const argv = require("./utils/argv");
 
 const { email, pass, debug } = argv;
 
@@ -17,6 +17,7 @@ if (debug) {
 }
 
 let page;
+const db = Db();
 
 (async () => {
   try {
@@ -31,8 +32,10 @@ let page;
     );
     await navigationManager.scrollToPageBottom();
     const profiles = await profileManager.getPageProfiles();
-    fs.writeFileSync("./tmp/accounts.txt", profiles.join("\n"));
+    profiles.forEach(uid => db.findOrCreateByUid(uid));
     await closeBrowsers();
+    await db.close();
+    console.log("Done!");
   } catch (e) {
     console.error("error:", e);
   }
