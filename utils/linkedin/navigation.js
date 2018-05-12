@@ -1,3 +1,4 @@
+// @ts-check
 /* global window */
 const time = require("../time");
 
@@ -28,9 +29,8 @@ module.exports = page => {
           scrollableContainer.scrollTop += SCROLL_STEP;
           return setTimeout(() => {
             if (
-              (counter &&
-                scrollableContainer.scrollTop === lastScrollPosition) ||
-              counter > maxIterations
+              (counter && counter > maxIterations) ||
+              scrollableContainer.scrollTop === lastScrollPosition
             ) {
               return resolve("[scrollToPageBottom] finished");
             }
