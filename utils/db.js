@@ -48,9 +48,9 @@ const getProfilesNumber = () => profiles.data.length;
 const getNextProfileToView = () =>
   profiles
     .chain()
-    .find()
-    .limit(1)
     .simplesort("lastVisited")
+    .limit(1)
+    .find()
     .data()
     .pop();
 

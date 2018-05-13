@@ -64,7 +64,7 @@ const getExitBanner = msg => {
       await new Promise(resolve => {
         const loopOverProfiles = async () => {
           const profile = db.getNextProfileToView();
-          if (!profile || profilesCounter > LIMIT_FOR_VISITING) {
+          if (!profile || profilesCounter >= LIMIT_FOR_VISITING) {
             return resolve();
           }
           await profileManager.visitProfile(profile.uid);
