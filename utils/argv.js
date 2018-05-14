@@ -10,19 +10,19 @@ const { argv } = optimist
   .demand("p")
   .alias("p", "pass")
   .describe("p", "Password for login")
+  .default({
+    email: process.env.LI_USER,
+    pass: process.env.LI_PASSWORD
+  })
   .boolean("debug")
   .describe("debug", "Run script in debug mode")
   .boolean("noImages")
   .describe("noImages", "Run script in debug mode")
-  .boolean("crawlProfiles")
-  .describe("crawlProfiles", "Crawl over profiles from db")
   .boolean("checkMyNetwork")
   .describe("checkMyNetwork", "Check my-network for new profiles")
-  .demand(["e", "p"])
-  .default({
-    email: process.env.LI_USER,
-    pass: process.env.LI_PASSWORD
-  });
+  .boolean("crawlProfiles")
+  .describe("crawlProfiles", "Crawl over profiles from db")
+  .demand(["e", "p"]);
 
 if (process.argv.length < 3) {
   optimist.showHelp();
