@@ -2,8 +2,8 @@
 const navigation = require("./navigation");
 const { sleep, random } = require("../time");
 
-const MIN_RANDOM_WAIT = 5000;
-const MAX_RANDOM_WAIT = 15000;
+const MIN_RANDOM_WAIT = 15 * 1000;
+const MAX_RANDOM_WAIT = 60 * 1000;
 
 module.exports = (page, db) => {
   const navigationManager = navigation(page);
