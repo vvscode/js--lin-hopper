@@ -1,3 +1,4 @@
+// @ts-check
 const puppeteer = require("puppeteer");
 
 const browsers = [];
@@ -17,7 +18,8 @@ async function getBrowser(debug) {
   return browser;
 }
 
-async function getBrowserPage(debug) {
+async function getBrowserPage(options = {}) {
+  const { noImages, debug } = options;
   const browser = await getBrowser(debug);
   const page = await browser.newPage();
   await page.setUserAgent(
@@ -27,6 +29,15 @@ async function getBrowserPage(debug) {
     width: 1024,
     height: 900
   });
+
+  if (!noImages) {
+    await page.setRequestInterception(true);
+    page.on("request", request => {
+      if (request.resourceType() === "image") request.abort();
+      else request.continue();
+    });
+  }
+
   return page;
 }
 

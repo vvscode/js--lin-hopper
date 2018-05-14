@@ -4,10 +4,10 @@ const linkedin = require("./utils/linkedin");
 const Db = require("./utils/db");
 const argv = require("./utils/argv");
 
-const LIMIT_FOR_VISITING = 10;
-const LIMIT_FOR_SCROLLING = 4;
+const LIMIT_FOR_VISITING = 100;
+const LIMIT_FOR_SCROLLING = Number.MAX_SAFE_INTEGER - 100;
 
-const { email, pass, debug } = argv;
+const { email, pass, debug, noImages } = argv;
 
 if (debug) {
   console.debug(
@@ -47,7 +47,10 @@ const getExitBanner = msg => {
   try {
     db = await Db();
     startProfilesNumber = db.getProfilesNumber();
-    page = await getBrowserPage(debug);
+    page = await getBrowserPage({
+      debug,
+      noImages
+    });
     page.on("console", msg => console.log(`[client console]`, msg.text()));
     await linkedin.login(page, email, pass);
 
