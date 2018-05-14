@@ -14,6 +14,10 @@ const { argv } = optimist
   .describe("debug", "Run script in debug mode")
   .boolean("noImages")
   .describe("noImages", "Run script in debug mode")
+  .boolean("crawlProfiles")
+  .describe("crawlProfiles", "Crawl over profiles from db")
+  .boolean("checkMyNetwork")
+  .describe("checkMyNetwork", "Check my-network for new profiles")
   .demand(["e", "p"])
   .default({
     email: process.env.LI_USER,

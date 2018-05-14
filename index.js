@@ -4,10 +4,13 @@ const linkedin = require("./utils/linkedin");
 const Db = require("./utils/db");
 const argv = require("./utils/argv");
 
-const LIMIT_FOR_VISITING = 100;
+const crawlProfilesModule = require("./modules/crawlProfiles");
+const checkMyNetworkContactsModule = require("./modules/checkMyNetworkContacts");
+
+const LIMIT_FOR_VISITING = 15;
 const LIMIT_FOR_SCROLLING = Number.MAX_SAFE_INTEGER - 100;
 
-const { email, pass, debug, noImages } = argv;
+const { email, pass, debug, noImages, crawlProfiles, checkMyNetwork } = argv;
 
 if (debug) {
   console.debug(
@@ -56,29 +59,22 @@ const getExitBanner = msg => {
 
     const navigationManager = linkedin.navigation(page);
     const profileManager = linkedin.profile(page, db);
-    await navigationManager.softNavigation(
-      "https://www.linkedin.com/mynetwork/"
-    );
-    await navigationManager.scrollToPageBottom(LIMIT_FOR_SCROLLING);
-    const profiles = await profileManager.getPageProfiles();
-    profiles.forEach(uid => db.findOrCreateByUid(uid));
 
-    try {
-      await new Promise(resolve => {
-        const loopOverProfiles = async () => {
-          const profile = db.getNextProfileToView();
-          if (!profile || profilesCounter >= LIMIT_FOR_VISITING) {
-            return resolve();
-          }
-          await profileManager.visitProfile(profile.uid);
-          profilesCounter += 1;
-          loopOverProfiles();
-        };
-
-        loopOverProfiles();
+    if (checkMyNetwork) {
+      await checkMyNetworkContactsModule({
+        navigationManager,
+        profileManager,
+        db,
+        limitForScrolling: LIMIT_FOR_SCROLLING
       });
-    } catch (e) {
-      console.error("[ERROR]:", e);
+    }
+
+    if (crawlProfiles) {
+      profilesCounter = await crawlProfilesModule({
+        db,
+        profileManager,
+        limitForVisiting: LIMIT_FOR_VISITING
+      });
     }
 
     await closeBrowsers();
