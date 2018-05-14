@@ -20,9 +20,10 @@ const { argv } = optimist
   .describe("noImages", "Run script in debug mode")
   .boolean("checkMyNetwork")
   .describe("checkMyNetwork", "Check my-network for new profiles")
-  .boolean("crawlProfiles")
-  .describe("crawlProfiles", "Crawl over profiles from db")
-  .demand(["e", "p"]);
+  .describe(
+    "crawlProfiles",
+    "Crawl over profiles from db (Might set limit of profiles)"
+  );
 
 if (process.argv.length < 3) {
   optimist.showHelp();

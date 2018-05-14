@@ -7,18 +7,24 @@ const argv = require("./utils/argv");
 const crawlProfilesModule = require("./modules/crawlProfiles");
 const checkMyNetworkContactsModule = require("./modules/checkMyNetworkContacts");
 
-const LIMIT_FOR_VISITING = 15;
+const LIMIT_FOR_VISITING = 15000;
 const LIMIT_FOR_SCROLLING = Number.MAX_SAFE_INTEGER - 100;
 
-const { email, pass, debug, noImages, crawlProfiles, checkMyNetwork } = argv;
+const { email, pass, debug, noImages, checkMyNetwork } = argv;
+
+const { crawlProfiles } = argv;
+
+const limitForVisiting =
+  crawlProfiles === true ? LIMIT_FOR_VISITING : +crawlProfiles || 0;
 
 if (debug) {
   console.debug(
     "Script arguments:",
-    argv,
+    JSON.stringify(argv, null, 2),
     `
     email: "${email}"
     pass: "${pass}"
+    limitForVisiting: ${limitForVisiting}
     `
   );
 }
@@ -73,7 +79,7 @@ const getExitBanner = msg => {
       profilesCounter = await crawlProfilesModule({
         db,
         profileManager,
-        limitForVisiting: LIMIT_FOR_VISITING
+        limitForVisiting
       });
     }
 
