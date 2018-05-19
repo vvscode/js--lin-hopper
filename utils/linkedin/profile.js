@@ -17,7 +17,6 @@ module.exports = (page, db) => {
     );
 
   const visitProfile = async (uid, randomWait = true) => {
-    console.log(`[visitProfile]: ${uid}`);
     await navigationManager.softNavigation(
       `https://www.linkedin.com/in/${uid}/`
     );

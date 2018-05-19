@@ -60,7 +60,9 @@ const getExitBanner = msg => {
       debug,
       noImages
     });
-    page.on("console", msg => console.log(`[client console]`, msg.text()));
+    if (debug) {
+      page.on("console", msg => console.log(`[client console]`, msg.text()));
+    }
     await linkedin.login(page, email, pass);
 
     const navigationManager = linkedin.navigation(page);

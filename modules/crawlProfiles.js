@@ -7,6 +7,7 @@ module.exports = async ({ db, profileManager, limitForVisiting }) => {
         if (!profile || profilesCounter >= limitForVisiting) {
           return resolve();
         }
+        console.log(`[visitProfile] #${profilesCounter + 1}: ${profile.uid}`);
         await profileManager.visitProfile(profile.uid);
         profilesCounter += 1;
         return setTimeout(loopOverProfiles, 0);
